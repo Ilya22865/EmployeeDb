@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ProjectPractika.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        x:Class="ProjectPractika.EditEmployeeWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/Logo.ico"
+        Title="EditEmployeeWindow"
+        Width="400"
+        Height="400">
+
+        <StackPanel Margin="20" Spacing="10">
+                <TextBox x:Name="FirstNameBox" Watermark="Имя" Text="{Binding Firstname}" />
+                <TextBox x:Name="LastNameBox" Watermark="Фамилия" Text="{Binding Lastname}" />
+                <TextBox x:Name="DepartmentBox" Watermark="Отдел(HR,Develop,Design)" Text="{Binding Department}" />
+                <TextBox x:Name="SalaryBox" Watermark="Зарплата" Text="{Binding Salary}"/>
+                <TextBlock Text="Дата рождения:" FontSize="17" />                
+                <DatePicker x:Name="DateOfBirth" SelectedDate="{Binding Dateofbirth}"/>
+                <TextBlock Text="Дата трудоустройства:" FontSize="17" />                
+                <DatePicker x:Name="DateOfEmployment" SelectedDate="{Binding Dateofemployment}" />
+                
+                <Button Content="Обновить" Command="{Binding EditEmployeeCommand}"/>
+        </StackPanel>
+</Window>

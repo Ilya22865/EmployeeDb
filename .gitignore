@@ -1,0 +1,23 @@
+# Binaries
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.exe.config
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+EOF
