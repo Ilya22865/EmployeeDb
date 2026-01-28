@@ -1,8 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tmds.DBus.Protocol;
 
 namespace ProjectPractika.Models;
 
