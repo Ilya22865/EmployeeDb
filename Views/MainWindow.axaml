@@ -8,7 +8,9 @@
         Icon="/Assets/Logo.ico"
         x:DataType="vm:MainWindowViewModel"
         Title="ProjectPractika"
-        Background="#DBDBDA">
+        Background="#DBDBDA"
+        MinWidth="500"
+        MinHeight="700">
     
     <Window.Styles>
         <Style Selector="Button.nav /template/ ContentPresenter">
@@ -63,6 +65,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
 
                     </Grid.ColumnDefinitions>
 
@@ -71,11 +74,11 @@
                                FontSize="25"
                                Foreground="White"
                                VerticalAlignment="Center" />
-
-                    <Button Classes="nav" Grid.Column="1" Content="{Binding HRButton}" Click="HRButton" Background="White" Command="{Binding HrCommand}" Margin="0,0,10,0" />
-                    <Button Classes="nav" Grid.Column="2" Content="{Binding DevButton}"  Click="DevelopButton" Background="White" Command="{Binding DevelopCommand}" Margin="0,0,10,0" />
-                    <Button Classes="nav" Grid.Column="3" Content="{Binding DesignButton}"  Click="DesignButton" Background="White" Command="{Binding DesignCommand}" Margin="0,0,10,0" />
-                    <Button Classes="nav" Grid.Column="4" Content="All" Click="AllButton" Background="White" Command="{Binding AllEmployeesCommand}" Margin="0,0,10,0"/>
+                    <Button Classes="nav" Grid.Column="1" Content="Send Email" Click="EmailWindow" Background="White" Margin="0,0,10,0"/>
+                    <Button Classes="nav" Grid.Column="2" Content="{Binding HRButton}" Click="HRButton" Background="White" Command="{Binding HrCommand}" Margin="0,0,10,0" />
+                    <Button Classes="nav" Grid.Column="3" Content="{Binding DevButton}"  Click="DevelopButton" Background="White" Command="{Binding DevelopCommand}" Margin="0,0,10,0" />
+                    <Button Classes="nav" Grid.Column="4" Content="{Binding DesignButton}"  Click="DesignButton" Background="White" Command="{Binding DesignCommand}" Margin="0,0,10,0" />
+                    <Button Classes="nav" Grid.Column="5" Content="All" Click="AllButton" Background="White" Command="{Binding AllEmployeesCommand}" Margin="0,0,10,0"/>
 
                 </Grid>
             </Border>
@@ -134,19 +137,20 @@
 
                 <DataGrid   IsReadOnly="True"
                             CanUserReorderColumns="True"
-                            CanUserResizeColumns="False"
+                            CanUserResizeColumns="True"
                             GridLinesVisibility="All"
                             BorderThickness="4" BorderBrush="Black"
                             CornerRadius="4"
                             ItemsSource="{Binding Employees}"
                             SelectedItem="{Binding SelectedEmployee}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="200"/>
-                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="200"/>
-                        <DataGridTextColumn Header="Отдел" Binding="{Binding Department}" Width="200"/>
-                        <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}" Width="200"/>
-                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth}" Width="200"/>
-                        <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding DateOfEmployment}" Width="200"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" />
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
+                        <DataGridTextColumn Header="Отдел" Binding="{Binding Department}" />
+                        <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}" />
+                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth}" />
+                        <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding DateOfEmployment}" />
+                        <DataGridTextColumn Header="Электронная почта" Binding="{Binding Email}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>

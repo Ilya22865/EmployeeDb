@@ -40,6 +40,14 @@ public partial class MainWindow : Window
         
         addWindow.Show();
     }
+    private void EmailWindow(object? sender, RoutedEventArgs e) {
+           var addWindow = new Email
+            {
+                DataContext = this.DataContext
+            };
+        
+        addWindow.Show();
+    }
     private void EditEmployee(object? sender, RoutedEventArgs e) {
         if(DataContext is MainWindowViewModel mainVm && mainVm.SelectedEmployee is not null) {
                 var editWindow = new EditEmployeeWindow {

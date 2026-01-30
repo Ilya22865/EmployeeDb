@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectPractika.Models;
 
@@ -10,5 +11,5 @@ public class Employee {
     public decimal Salary { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
     public DateTimeOffset DateOfEmployment { get; set; }
-
+    public string? Email { get; set; }
 }

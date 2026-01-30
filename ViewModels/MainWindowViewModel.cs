@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ProjectPractika.Models;
 using ProjectPractika.Services;
+using System.Net;
+using System.Net.Mail;
 
 namespace ProjectPractika.ViewModels;
 
@@ -24,6 +26,10 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private string? _salary;
     [ObservableProperty] private DateTimeOffset _dateofbirth = DateTimeOffset.Now.Date;
     [ObservableProperty] private DateTimeOffset _dateofemployment = DateTimeOffset.Now.Date;
+    [ObservableProperty] private string? _email;
+    [ObservableProperty] private string? _theme;
+    [ObservableProperty] private string? _maintext;
+
 
     public MainWindowViewModel(IEmployeeService employeeService) {
         _employeeService = employeeService;
@@ -76,9 +82,11 @@ public partial class MainWindowViewModel : ViewModelBase
             string.IsNullOrWhiteSpace(Lastname) ||
             string.IsNullOrWhiteSpace(Department) ||
             !(Department == "HR" || Department == "Develop" || Department == "Design") ||
-            !decimal.TryParse(Salary, out var salary))
+            !decimal.TryParse(Salary, out var salary) ||
+            string.IsNullOrWhiteSpace(Email))
         {
             return false;
+            
         }
 
         employee = new Employee
@@ -88,7 +96,8 @@ public partial class MainWindowViewModel : ViewModelBase
             Department = Department!,
             Salary = salary,
             DateOfBirth = Dateofbirth,
-            DateOfEmployment = Dateofemployment
+            DateOfEmployment = Dateofemployment,
+            Email = Email
         };
 
         return true;
@@ -132,6 +141,7 @@ public partial class MainWindowViewModel : ViewModelBase
             Salary = Convert.ToString(value.Salary);
             Dateofbirth = value.DateOfBirth;
             Dateofemployment = value.DateOfEmployment;
+            Email = value.Email;
         } else {
             Clear();
         }
@@ -148,13 +158,56 @@ public partial class MainWindowViewModel : ViewModelBase
             SelectedEmployee.Salary = Convert.ToDecimal(Salary);
             SelectedEmployee.DateOfBirth = Dateofbirth;
             SelectedEmployee.DateOfEmployment = Dateofemployment;
-
+            SelectedEmployee.Email = Email;
             _employeeService.UpdateEmployeeAsync(SelectedEmployee);
 
             var temp = Employees[index];
             Employees[index] = null;
             Employees[index] = temp;
             SelectedEmployee = null;    
+        }
+    }
+
+    [RelayCommand]
+    private async Task EmailEmployee() {
+        if (SelectedEmployee is not null) {
+            var index = Employees.IndexOf(SelectedEmployee);
+            
+            SelectedEmployee.Email = Email;
+
+            var temp = Employees[index];
+            Employees[index] = null;
+            Employees[index] = temp;
+            SelectedEmployee = null;    
+        }
+    }
+
+
+    [RelayCommand]
+    private async Task SendEmail() {
+        try {
+            string? SenderEmail = "hribanov555@gmail.com";
+            string? SenderEmailPassword = "avja fsof dcmj agnf";
+
+            string? recieverEmail = SelectedEmployee.Email;
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+
+            smtpClient.Port = 587;
+            smtpClient.Credentials = new NetworkCredential(SenderEmail, SenderEmailPassword);
+            smtpClient.EnableSsl = true;
+            MailMessage mailMessage = new MailMessage();
+
+            mailMessage.From = new MailAddress(SenderEmail);
+            mailMessage.Subject = Theme;
+            mailMessage.Body = Maintext;
+            mailMessage.IsBodyHtml = true;
+
+            mailMessage.To.Add(recieverEmail);
+            smtpClient.Send(mailMessage);
+            Console.WriteLine("Mail Send");
+        } catch {
+            Console.WriteLine("Error");
         }
     }
 }

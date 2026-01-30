@@ -7,7 +7,11 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Icon="/Assets/Logo.ico"
         x:Class="ProjectPractika.ErrorEdit"
-        Title="ErrorEdit">
+        Title="ErrorEdit"
+        Width="600"
+        Height="300"
+        MinWidth="500"
+        MinHeight="250">
 
         <TextBlock Text="Выберите сотрудника для редактирования!" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
 </Window>

@@ -48,21 +48,18 @@ public class EmployeeService : IEmployeeService
 
         while (await reader.ReadAsync()) {
             var employee = new Employee {
-                Id = reader.GetInt32("Id"),
                 FirstName = reader.GetString("FirstName"),
                 LastName = reader.GetString("LastName"),
                 Department = reader.GetString("Department"),
                 Salary = reader.GetDecimal("Salary"),
                 DateOfBirth = reader.GetDateTime("DateOfBirth"),
-                DateOfEmployment = reader.GetDateTime("DateOfEmployment")
+                DateOfEmployment = reader.GetDateTime("DateOfEmployment"),
+                Email = reader.GetString("Email")
             };
             employees.Add(employee);
         }
         return employees;
     }
-    
-    
-
     public async Task<int> UpdateEmployeeAsync(Employee employee)
     {
         var context = _context.Employees.Update(employee);
