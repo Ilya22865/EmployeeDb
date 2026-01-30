@@ -25,9 +25,6 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private DateTimeOffset _dateofbirth = DateTimeOffset.Now.Date;
     [ObservableProperty] private DateTimeOffset _dateofemployment = DateTimeOffset.Now.Date;
 
-    
-
-
     public MainWindowViewModel(IEmployeeService employeeService) {
         _employeeService = employeeService;
         _employees = new ObservableCollection<Employee>();
@@ -69,7 +66,7 @@ public partial class MainWindowViewModel : ViewModelBase
             Employees.Add(employee);
         }
     }
-
+    
     private bool TryParseEmployee(out Employee employee)
     {   
         
@@ -160,6 +157,4 @@ public partial class MainWindowViewModel : ViewModelBase
             SelectedEmployee = null;    
         }
     }
-
-
 }
