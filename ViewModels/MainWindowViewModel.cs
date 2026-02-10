@@ -6,7 +6,11 @@ using CommunityToolkit.Mvvm.Input;
 using ProjectPractika.Models;
 using ProjectPractika.Services;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
+using Avalonia.Platform;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace ProjectPractika.ViewModels;
 
@@ -177,16 +181,47 @@ public partial class MainWindowViewModel : ViewModelBase
             SelectedEmployee = null;    
         }
     }
+    private static readonly HttpClient _httpClient = new();
+    private async Task<bool> ValidEmailAsync(string Email, string ApiKey) {
+        try {
+            var url = $"https://api.hunter.io/v2/email-verifier?email={Uri.EscapeDataString(Email)}&api_key={ApiKey}";
+            using var response = await _httpClient.GetAsync(url);
+            if(!response.IsSuccessStatusCode) {
+                return false;
+            }
 
+            using var jsonDoc = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            var root = jsonDoc.RootElement;
 
+            if (root.TryGetProperty("data", out var dataElement) &&
+                dataElement.TryGetProperty("status", out var statusElement))
+            {
+                return statusElement.GetString() == "valid";
+            }
+
+            return false;
+        } catch {
+            return false;
+        }
+    }
     [RelayCommand]
     private async Task SendEmail() {
         try {
-            string? SenderEmail = "hribanov555@gmail.com";
-            string? SenderEmailPassword = "avja fsof dcmj agnf";
+            var config = new ConfigurationBuilder()
+                        .AddUserSecrets<MainWindowViewModel>()
+                        .Build();
 
+            string SenderEmail = config["Email:Sender"]!;
+            string SenderEmailPassword = config["Email:AppPassword"]!;
+            string? hunterKey = config["Hunter:ApiKey"];
             string? recieverEmail = SelectedEmployee.Email;
+            bool isEmailValid;
 
+            isEmailValid = await ValidEmailAsync(recieverEmail, hunterKey);
+            if(!isEmailValid) {
+                Console.WriteLine("Ошибка");
+                return;
+            }
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
 
             smtpClient.Port = 587;
@@ -201,7 +236,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
             mailMessage.To.Add(recieverEmail);
             smtpClient.Send(mailMessage);
-            Console.WriteLine("Mail Send");
+            Console.WriteLine("Письмо отправлено");
         } catch {
             Console.WriteLine("Error");
         }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ProjectPractika.Extensions;
 using ProjectPractika.Data;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.Configuration;
 namespace ProjectPractika;
 
 public partial class App : Application

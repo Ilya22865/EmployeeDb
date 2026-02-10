@@ -20,6 +20,4 @@ public partial class AddEmployeeWindow : Window
     private void CloseWindow(object? sender, RoutedEventArgs e) {
         this.Close();
     }
-
-    
 }
