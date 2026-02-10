@@ -38,39 +38,32 @@ public partial class MainWindowViewModel : ViewModelBase
     }
     
     [RelayCommand]
-    private async void AllEmployees() {
+    private async Task AllEmployees() {
         Employees.Clear();
         var allEmployee = await _employeeService.GetAllEmployeesAsync();
-        foreach (var employee in allEmployee) {
-            Employees.Add(employee); 
-        }
+        foreach (var employee in allEmployee) Employees.Add(employee); 
     }
 
     [RelayCommand]
-    private async void Hr() {
+    private async Task Hr() {
         Employees.Clear();
         var depEmployee = await _employeeService.GetEmployeeByDepartmentAsync("HR");
-        foreach (var employee in depEmployee) {
-            Employees.Add(employee);
-        }
+        foreach (var employee in depEmployee) Employees.Add(employee);
+    
     } 
 
     [RelayCommand]
-    private async void Develop() {
+    private async Task Develop() {
         Employees.Clear();
         var depEmployee = await _employeeService.GetEmployeeByDepartmentAsync("Develop");
-        foreach (var employee in depEmployee) {
-            Employees.Add(employee);
-        }
+        foreach (var employee in depEmployee) Employees.Add(employee);
     }
 
     [RelayCommand]
-    private async void Design() {
+    private async Task Design() {
         Employees.Clear();
         var depEmployee = await _employeeService.GetEmployeeByDepartmentAsync("Design");
-        foreach (var employee in depEmployee) {
-            Employees.Add(employee);
-        }
+        foreach (var employee in depEmployee) Employees.Add(employee);
     }
     
     private bool TryParseEmployee(out Employee employee)
@@ -120,13 +113,16 @@ public partial class MainWindowViewModel : ViewModelBase
         Firstname = string.Empty;
         Lastname = string.Empty;
         Department = string.Empty;
-        Salary = string.Empty;        
+        Salary = string.Empty;      
+        Email = string.Empty; 
+        Dateofbirth = DateTime.Now;
+        Dateofemployment = DateTime.Now;
     }
 
     [RelayCommand]
     private async Task DeleteEmployee() {
         if(SelectedEmployee is not null) {
-            _employeeService.DeleteEmployeeAsync(SelectedEmployee);
+            await _employeeService.DeleteEmployeeAsync(SelectedEmployee);
             Employees.Remove(SelectedEmployee);
             SelectedEmployee = null;
         }
@@ -159,7 +155,7 @@ public partial class MainWindowViewModel : ViewModelBase
             SelectedEmployee.DateOfBirth = Dateofbirth;
             SelectedEmployee.DateOfEmployment = Dateofemployment;
             SelectedEmployee.Email = Email;
-            _employeeService.UpdateEmployeeAsync(SelectedEmployee);
+            await _employeeService.UpdateEmployeeAsync(SelectedEmployee);
 
             var temp = Employees[index];
             Employees[index] = null;

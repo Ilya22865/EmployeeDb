@@ -9,7 +9,7 @@
         x:DataType="vm:MainWindowViewModel"
         Title="ProjectPractika"
         Background="#DBDBDA"
-        MinWidth="500"
+        MinWidth="930"
         MinHeight="700">
     
     <Window.Styles>
@@ -120,7 +120,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Classes="data" Grid.Column="0" Content="{Binding SaveBtn}" Background="Black" Click="NewEmployee" Margin="5" FontSize="33" />
+                            <Button Classes="data" Grid.Column="0" Command="{Binding ClearCommand}" Content="{Binding SaveBtn}" Background="Black" Click="NewEmployee" Margin="5" FontSize="33" />
                             <Button Classes="data" Grid.Column="1" Content="Изменить" Background="Black" Click="EditEmployee" Margin="5" FontSize="33" />
 
                         </Grid>
